@@ -1,19 +1,21 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 
+// Database schema
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required, true,
+    required: true,
     trim: true
   },
   password: {
     type: String,
-    required, true,
+    required: true,
     trim: true
   }
 })
 
+// Executed everytime before save operation
 UserSchema.pre('save', function(next) {
   const user = this
 
@@ -31,6 +33,7 @@ UserSchema.pre('save', function(next) {
   })
 })
 
+// Compare password
 UserSchema.methods.comparePassword = function (toCompare, done) {
   bcrypt.compare(toCompare, this.password, (err, isMatch) => {
     if (err) done(err)
